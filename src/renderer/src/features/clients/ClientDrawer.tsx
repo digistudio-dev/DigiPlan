@@ -11,7 +11,7 @@ import { fromIsoDate } from '@shared/format'
 import { api, errorMessage } from '@/lib/api'
 import { useClient, useClientHistory } from '@/lib/queries'
 import { useApp, useProGate } from '@/hooks/useApp'
-import { useUi } from '@/stores/ui'
+import { useUi, useUiActions } from '@/stores/ui'
 import { cn } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Sheet } from '@/components/ui/dialog'
@@ -31,7 +31,7 @@ export function ClientDrawer() {
 }
 
 function Profile({ id, onClose }: { id: string; onClose: () => void }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const { currency, isPro } = useApp()
   const gate = useProGate()
   const { data: c, isLoading } = useClient(id)
@@ -283,7 +283,7 @@ function Info({ label, value, highlight, wide }: { label: string; value: React.R
 }
 
 function AppointmentList({ items }: { items: AppointmentDto[] }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const { currency } = useApp()
   return (
     <ul className="divide-y divide-border rounded-lg border border-border">

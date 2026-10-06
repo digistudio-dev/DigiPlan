@@ -34,7 +34,7 @@ import { PAYMENT_METHOD_LABELS } from '@shared/status'
 import { api } from '@/lib/api'
 import { useAppointment } from '@/lib/queries'
 import { useApp, useProGate } from '@/hooks/useApp'
-import { useUi } from '@/stores/ui'
+import { useUi, useUiActions } from '@/stores/ui'
 import { capitalize, cn } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Sheet } from '@/components/ui/dialog'
@@ -67,7 +67,7 @@ export function AppointmentDrawer() {
 }
 
 function Details({ a, onClose }: { a: AppointmentDto; onClose: () => void }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const { terms, currency, isPro } = useApp()
   const gate = useProGate()
   const actions = useAppointmentActions()

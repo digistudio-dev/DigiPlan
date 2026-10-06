@@ -27,7 +27,7 @@ import { formatMoney } from '@shared/domain/money'
 import { nextStatusAction, STATUS_COLORS } from '@shared/status'
 import { useApp } from '@/hooks/useApp'
 import { useDashboard } from '@/lib/queries'
-import { useUi } from '@/stores/ui'
+import { useUiActions } from '@/stores/ui'
 import { capitalize, cn, percent } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Button } from '@/components/ui/button'
@@ -85,7 +85,7 @@ const KPIS: Record<KpiWidgetId, KpiDef> = {
 export function DashboardPage() {
   const { business, category, terms, currency } = useApp()
   const { data, isLoading } = useDashboard()
-  const ui = useUi()
+  const ui = useUiActions()
   const hour = new Date().getHours()
 
   return (
@@ -164,7 +164,7 @@ function greetingName(full: string): string {
 }
 
 function Timeline({ data, loading }: { data?: DashboardData; loading: boolean }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const actions = useAppointmentActions()
   const items = data?.todayAppointments ?? []
   const now = data?.now ?? Date.now()
@@ -264,7 +264,7 @@ function Timeline({ data, loading }: { data?: DashboardData; loading: boolean })
 }
 
 function NextAppointment({ appointment: a, now, loading }: { appointment: AppointmentDto | null; now: number; loading: boolean }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const actions = useAppointmentActions()
   const { currency } = useApp()
   if (loading) return <Skeleton className="h-[188px] rounded-xl" />
@@ -317,7 +317,7 @@ function NextAppointment({ appointment: a, now, loading }: { appointment: Appoin
 }
 
 function Panel({ id, data, currency }: { id: PanelWidgetId; data: DashboardData; currency: string }) {
-  const ui = useUi()
+  const ui = useUiActions()
   const { terms } = useApp()
   if (id === 'revenueTrend') {
     const total = data.revenueTrend.reduce((s, d) => s + d.amount, 0)

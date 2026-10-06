@@ -11,7 +11,7 @@ import { PAYMENT_METHOD_LABELS } from '@shared/status'
 import { api, errorMessage } from '@/lib/api'
 import { useStaffList } from '@/lib/queries'
 import { useApp, useProGate } from '@/hooks/useApp'
-import { useUi } from '@/stores/ui'
+import { useUiActions } from '@/stores/ui'
 import { cn, percent } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Button } from '@/components/ui/button'
@@ -47,7 +47,7 @@ function presetRange(p: Preset): { from: string; to: string } {
 export default function ReportsPage() {
   const { currency, isPro, terms } = useApp()
   const gate = useProGate()
-  const ui = useUi()
+  const ui = useUiActions()
   const [preset, setPreset] = useState<Preset>('month')
   const [custom, setCustom] = useState(presetRange('month'))
   const [staffId, setStaffId] = useState<string>('')

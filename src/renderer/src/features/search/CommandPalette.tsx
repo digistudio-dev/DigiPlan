@@ -8,7 +8,7 @@ import { formatMoney } from '@shared/domain/money'
 import { formatDuration } from '@shared/format'
 import { api } from '@/lib/api'
 import { useApp } from '@/hooks/useApp'
-import { useUi, type Page } from '@/stores/ui'
+import { useUi, useUiActions, type Page } from '@/stores/ui'
 import { t } from '@/i18n'
 import { StatusBadge } from '@/components/common'
 import { Avatar, Kbd } from '@/components/ui/primitives'
@@ -29,7 +29,7 @@ const groupCls =
 
 export function CommandPalette() {
   const open = useUi((s) => s.commandOpen)
-  const ui = useUi()
+  const ui = useUiActions()
   const { terms, currency } = useApp()
   const [query, setQuery] = useState('')
   const q = useDebounced(query.trim(), 160)

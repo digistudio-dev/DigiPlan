@@ -8,7 +8,7 @@ import { formatDateShort, formatRelativeDay } from '@shared/format'
 import { api, errorMessage } from '@/lib/api'
 import { useTags } from '@/lib/queries'
 import { useApp } from '@/hooks/useApp'
-import { useUi } from '@/stores/ui'
+import { useUiActions } from '@/stores/ui'
 import { cn } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Button } from '@/components/ui/button'
@@ -22,7 +22,7 @@ const PAGE = 50
 
 export default function ClientsPage() {
   const { terms, currency } = useApp()
-  const ui = useUi()
+  const ui = useUiActions()
   const [search, setSearch] = useState('')
   const [q, setQ] = useState('')
   const [filter, setFilter] = useState<Filter>('active')

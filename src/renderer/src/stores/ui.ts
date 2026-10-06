@@ -109,3 +109,12 @@ export const useUi = create<UiState>((set) => ({
 
   onboardingActive: false
 }))
+
+/**
+ * Actions de l'interface SANS abonnement à l'état : le composant ne se re-rend pas
+ * à chaque ouverture de panneau ou de dialogue. Les actions Zustand sont stables.
+ * À utiliser uniquement pour appeler des fonctions (jamais pour lire des valeurs).
+ */
+export function useUiActions() {
+  return useUi.getState()
+}

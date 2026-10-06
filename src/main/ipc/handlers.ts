@@ -145,7 +145,9 @@ export function registerIpcHandlers(): void {
     }
     const s = updateSettings(patch as Partial<AppSettings>)
     if (patch.theme) applyTitleBarTheme(s.theme)
-    changed('settings')
+    // Simples préférences d'affichage : l'interface met déjà son cache à jour, inutile de tout recharger.
+    const viewOnly: Array<keyof AppSettings> = ['defaultCalendarView', 'calendarColorMode', 'sidebarCollapsed']
+    if (!Object.keys(patch).every((k) => viewOnly.includes(k as keyof AppSettings))) changed('settings')
     return s
   })
 

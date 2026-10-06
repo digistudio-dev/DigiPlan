@@ -215,11 +215,21 @@ input[type='time']::-webkit-calendar-picker-indicator {
   background: var(--surface);
   font-weight: 500;
   color: var(--muted-foreground);
-  text-transform: capitalize;
 }
 .dp-calendar .fc-col-header-cell-cushion {
   padding: 8px 4px;
   font-size: 0.8rem;
+  display: inline-block;
+}
+.dp-calendar .fc-list-day-text,
+.dp-calendar .fc-list-day-side-text {
+  display: inline-block;
+}
+/* Majuscule sur la première lettre seulement : « Mercredi 07 octobre » */
+.dp-calendar .fc-col-header-cell-cushion::first-letter,
+.dp-calendar .fc-list-day-text::first-letter,
+.dp-calendar .fc-list-day-side-text::first-letter {
+  text-transform: uppercase;
 }
 .dp-calendar .fc-timegrid-slot {
   height: 2.6em;
@@ -275,7 +285,6 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 .dp-calendar .fc-list-day-cushion {
   background: var(--surface-2) !important;
-  text-transform: capitalize;
 }
 .dp-calendar .fc-list-event td {
   border-color: var(--border);
@@ -302,6 +311,40 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 .dp-calendar .fc-highlight {
   border-radius: 6px;
+}
+.dp-calendar .dp-muted {
+  opacity: 0.6;
+}
+/* Rendez-vous en cours d'enregistrement après un glisser-déposer */
+.dp-calendar .dp-saving {
+  animation: dp-saving 1s ease-in-out infinite;
+  cursor: progress;
+}
+@keyframes dp-saving {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+/* Barre de chargement discrète pendant la récupération d'une période */
+.dp-loading-bar {
+  animation: dp-loading 1s ease-in-out infinite;
+}
+@keyframes dp-loading {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+/* Pas d'animation coûteuse pendant le déplacement d'un événement */
+.dp-calendar .fc-event-mirror {
+  box-shadow: var(--shadow-md);
+  opacity: 0.9;
 }
 
 /* Impression des reçus intégrés */

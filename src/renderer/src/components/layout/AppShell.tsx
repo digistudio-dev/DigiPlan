@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
-import { useUi } from '@/stores/ui'
-import { useProGate } from '@/hooks/useApp'
+import { useUi, useUiActions } from '@/stores/ui'
 import { ErrorBoundary } from '../common'
 import { Skeleton } from '../ui/primitives'
 import { Sidebar } from './Sidebar'
@@ -17,15 +16,36 @@ import { ReceiptDialog } from '@/features/payments/ReceiptDialog'
 import { WhatsAppComposer } from '@/features/whatsapp/WhatsAppComposer'
 import { SeriesScopeHost } from '@/features/appointments/SeriesScopeDialog'
 
-// Les écrans secondaires sont chargés à la demande pour un démarrage plus rapide.
-const CalendarPage = lazy(() => import('@/features/calendar/CalendarPage'))
-const ClientsPage = lazy(() => import('@/features/clients/ClientsPage'))
-const ServicesPage = lazy(() => import('@/features/services/ServicesPage'))
-const StaffPage = lazy(() => import('@/features/staff/StaffPage'))
-const PaymentsPage = lazy(() => import('@/features/payments/PaymentsPage'))
-const ReportsPage = lazy(() => import('@/features/reports/ReportsPage'))
-const WhatsAppPage = lazy(() => import('@/features/whatsapp/WhatsAppPage'))
-const SettingsPage = lazy(() => import('@/features/settings/SettingsPage'))
+// Les écrans secondaires sont chargés à la demande (démarrage rapide), puis préchargés
+// en arrière-plan dès que l'application est inactive : leur première ouverture est instantanée.
+const loaders = {
+  calendar: () => import('@/features/calendar/CalendarPage'),
+  clients: () => import('@/features/clients/ClientsPage'),
+  services: () => import('@/features/services/ServicesPage'),
+  staff: () => import('@/features/staff/StaffPage'),
+  payments: () => import('@/features/payments/PaymentsPage'),
+  reports: () => import('@/features/reports/ReportsPage'),
+  whatsapp: () => import('@/features/whatsapp/WhatsAppPage'),
+  settings: () => import('@/features/settings/SettingsPage')
+}
+const CalendarPage = lazy(loaders.calendar)
+const ClientsPage = lazy(loaders.clients)
+const ServicesPage = lazy(loaders.services)
+const StaffPage = lazy(loaders.staff)
+const PaymentsPage = lazy(loaders.payments)
+const ReportsPage = lazy(loaders.reports)
+const WhatsAppPage = lazy(loaders.whatsapp)
+const SettingsPage = lazy(loaders.settings)
+
+function usePrefetchPages() {
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      // Le calendrier d'abord : c'est l'écran le plus utilisé.
+      void Object.values(loaders).reduce((p, load) => p.then(() => load()).then(() => undefined), Promise.resolve())
+    }, 1200)
+    return () => window.clearTimeout(id)
+  }, [])
+}
 
 function PageFallback() {
   return (
@@ -43,8 +63,7 @@ function PageFallback() {
 }
 
 function useGlobalShortcuts() {
-  const ui = useUi()
-  const gate = useProGate()
+  const ui = useUiActions()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!e.ctrlKey || e.altKey || e.metaKey) return
@@ -65,12 +84,13 @@ function useGlobalShortcuts() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [ui, gate])
+  }, [ui])
 }
 
 export function AppShell() {
   const page = useUi((s) => s.page)
   useGlobalShortcuts()
+  usePrefetchPages()
 
   return (
     <div className="flex h-full flex-col bg-background">

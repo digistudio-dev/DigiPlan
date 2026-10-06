@@ -486,7 +486,8 @@ export function moveAppointment(
     bufferBeforeMin: row.buffer_before_min,
     bufferAfterMin: row.buffer_after_min
   })
-  const conflicts = checkSlot(input.startAt, input.endAt, ctx)
+  // Corriger un rendez-vous déjà passé (ex. décalage de 15 min) ne déclenche pas l'avertissement « créneau passé ».
+  const conflicts = checkSlot(input.startAt, input.endAt, ctx).filter((c) => !(c.code === 'past' && existing.startAt < Date.now()))
   const problem = evaluate(conflicts, input.acknowledgeWarnings)
   if (problem) return { ok: false, conflicts: problem }
   run('UPDATE appointments SET start_at = ?, end_at = ?, staff_id = ?, updated_at = ? WHERE id = ?', [

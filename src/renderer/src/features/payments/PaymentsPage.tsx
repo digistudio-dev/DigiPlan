@@ -11,7 +11,7 @@ import { formatMoney } from '@shared/domain/money'
 import { PAYMENT_METHOD_LABELS, PAYMENT_METHODS } from '@shared/status'
 import { api, errorMessage } from '@/lib/api'
 import { useApp } from '@/hooks/useApp'
-import { useUi } from '@/stores/ui'
+import { useUiActions } from '@/stores/ui'
 import { cn } from '@/lib/utils'
 import { t } from '@/i18n'
 import { Button } from '@/components/ui/button'
@@ -32,7 +32,7 @@ function periodRange(p: Period): { from?: number; to?: number; fromIso?: string;
 
 export default function PaymentsPage() {
   const { currency } = useApp()
-  const ui = useUi()
+  const ui = useUiActions()
   const [period, setPeriod] = useState<Period>('month')
   const [method, setMethod] = useState<PaymentMethod | ''>('')
   const [search, setSearch] = useState('')
