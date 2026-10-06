@@ -1,0 +1,14 @@
+node_modules/
+out/
+dist/
+release/
+*.log
+.env
+.env.local
+.DS_Store
+Thumbs.db
+coverage/
+.eslintcache
+test-results/
+# Liste des codes d'activation Pro : ne jamais publier.
+docs/private/

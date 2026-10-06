@@ -1,0 +1,312 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------- Jetons de design ---------- */
+:root {
+  --background: #f7f7f8;
+  --panel: #fcfcfd;
+  --surface: #ffffff;
+  --surface-2: #f4f4f6;
+  --surface-3: #ebebee;
+  --border: #e5e5e9;
+  --border-strong: #d4d4da;
+  --foreground: #101217;
+  --muted-foreground: #646873;
+  --subtle-foreground: #9599a3;
+  --primary: #0e6be6;
+  --primary-hover: #0b5dcb;
+  --primary-foreground: #ffffff;
+  --primary-soft: #eaf2fe;
+  --primary-soft-foreground: #0a56bd;
+  --ring: rgb(14 107 230 / 0.35);
+  --danger: #dc2626;
+  --danger-soft: #fdecec;
+  --success: #15803d;
+  --success-soft: #e8f6ec;
+  --warning: #b45309;
+  --warning-soft: #fdf3e2;
+  --overlay: rgb(15 17 23 / 0.32);
+  --shadow-sm: 0 1px 2px rgb(16 18 23 / 0.04), 0 1px 1px rgb(16 18 23 / 0.03);
+  --shadow-md: 0 4px 16px -4px rgb(16 18 23 / 0.1), 0 2px 4px -2px rgb(16 18 23 / 0.05);
+  --shadow-lg: 0 24px 48px -12px rgb(16 18 23 / 0.22), 0 4px 12px -4px rgb(16 18 23 / 0.08);
+  --titlebar-h: 44px;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #0d0e12;
+  --panel: #111217;
+  --surface: #16181d;
+  --surface-2: #1c1e24;
+  --surface-3: #25282f;
+  --border: #23262e;
+  --border-strong: #2f333c;
+  --foreground: #ebecef;
+  --muted-foreground: #9b9fab;
+  --subtle-foreground: #6c707b;
+  --primary: #3b8bff;
+  --primary-hover: #5b9eff;
+  --primary-foreground: #ffffff;
+  --primary-soft: rgb(59 139 255 / 0.14);
+  --primary-soft-foreground: #8dbbff;
+  --ring: rgb(59 139 255 / 0.45);
+  --danger: #f05252;
+  --danger-soft: rgb(240 82 82 / 0.13);
+  --success: #3fbf6a;
+  --success-soft: rgb(63 191 106 / 0.13);
+  --warning: #f0a33a;
+  --warning-soft: rgb(240 163 58 / 0.13);
+  --overlay: rgb(0 0 0 / 0.55);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+  --shadow-md: 0 6px 20px -6px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 24px 60px -12px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.04);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-panel: var(--panel);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-soft-foreground: var(--primary-soft-foreground);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-overlay: var(--overlay);
+  --color-ring: var(--ring);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --radius-sm: 5px;
+  --radius-md: 7px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --animate-fade-in: fade-in 160ms ease-out;
+  --animate-slide-in-right: slide-in-right 220ms cubic-bezier(0.32, 0.72, 0, 1);
+  --animate-zoom-in: zoom-in 160ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slide-in-right {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes zoom-in {
+  from { transform: translate(-50%, -48%) scale(0.97); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* ---------- Base ---------- */
+html {
+  font-size: 15px;
+}
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;
+  user-select: none;
+}
+input,
+textarea,
+[contenteditable],
+.selectable {
+  user-select: text;
+}
+* {
+  border-color: var(--border);
+}
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.drag {
+  -webkit-app-region: drag;
+}
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+/* Barres de défilement discrètes */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*:hover::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--foreground) 16%, transparent);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Champs date/heure natifs cohérents avec le thème */
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='time']::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  cursor: pointer;
+}
+.dark input[type='date']::-webkit-calendar-picker-indicator,
+.dark input[type='time']::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+/* ---------- FullCalendar ---------- */
+.dp-calendar {
+  --fc-border-color: var(--border);
+  --fc-page-bg-color: var(--surface);
+  --fc-neutral-bg-color: var(--surface-2);
+  --fc-today-bg-color: color-mix(in srgb, var(--primary) 4%, transparent);
+  --fc-now-indicator-color: #ef4444;
+  --fc-highlight-color: color-mix(in srgb, var(--primary) 12%, transparent);
+  --fc-list-event-hover-bg-color: var(--surface-2);
+  --fc-event-border-color: transparent;
+  height: 100%;
+  font-size: 0.82rem;
+}
+.dp-calendar .fc {
+  height: 100%;
+}
+.dp-calendar .fc-scrollgrid {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+.dp-calendar .fc-theme-standard td,
+.dp-calendar .fc-theme-standard th {
+  border-color: var(--border);
+}
+.dp-calendar .fc-col-header-cell {
+  background: var(--surface);
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-transform: capitalize;
+}
+.dp-calendar .fc-col-header-cell-cushion {
+  padding: 8px 4px;
+  font-size: 0.8rem;
+}
+.dp-calendar .fc-timegrid-slot {
+  height: 2.6em;
+}
+.dp-calendar .fc-timegrid-slot-minor {
+  border-top-style: dotted;
+}
+.dp-calendar .fc-timegrid-slot-label-cushion,
+.dp-calendar .fc-timegrid-axis-cushion {
+  font-size: 0.72rem;
+  color: var(--subtle-foreground);
+  font-variant-numeric: tabular-nums;
+}
+.dp-calendar .fc-non-business {
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--foreground) 2.5%, transparent),
+    color-mix(in srgb, var(--foreground) 2.5%, transparent) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+.dp-calendar .fc-timegrid-event,
+.dp-calendar .fc-daygrid-event {
+  border-radius: 6px;
+  box-shadow: none;
+}
+.dp-calendar .fc-timegrid-event-harness-inset .fc-timegrid-event {
+  box-shadow: 0 0 0 1.5px var(--surface);
+}
+.dp-calendar .fc-event {
+  cursor: pointer;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+.dp-calendar .fc-event:hover {
+  filter: brightness(0.97);
+}
+.dp-calendar .fc-event.fc-event-dragging {
+  box-shadow: var(--shadow-md);
+}
+.dp-calendar .fc-daygrid-day-number {
+  font-size: 0.78rem;
+  color: var(--muted-foreground);
+  padding: 6px 8px;
+  font-variant-numeric: tabular-nums;
+}
+.dp-calendar .fc-day-today .fc-daygrid-day-number {
+  color: var(--primary);
+  font-weight: 600;
+}
+.dp-calendar .fc-list {
+  border: 0;
+}
+.dp-calendar .fc-list-day-cushion {
+  background: var(--surface-2) !important;
+  text-transform: capitalize;
+}
+.dp-calendar .fc-list-event td {
+  border-color: var(--border);
+}
+.dp-calendar .fc-list-empty {
+  background: var(--surface);
+}
+.dp-calendar .fc-daygrid-more-link {
+  font-size: 0.72rem;
+  color: var(--muted-foreground);
+}
+.dp-calendar .fc-popover {
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow-lg);
+}
+.dp-calendar .fc-popover-header {
+  background: var(--surface-2);
+  border-radius: 10px 10px 0 0;
+}
+.dp-calendar .fc-timegrid-now-indicator-arrow {
+  border-width: 5px 0 5px 6px;
+}
+.dp-calendar .fc-highlight {
+  border-radius: 6px;
+}
+
+/* Impression des reçus intégrés */
+@media print {
+  body {
+    overflow: visible;
+  }
+}

@@ -1,0 +1,51 @@
+# Configuration de l'installateur Windows DigiPlan.
+appId: dev.digistudio.digiplan
+productName: DigiPlan
+copyright: © 2026 DigiStudio.dev
+directories:
+  output: release/${version}
+  buildResources: build
+files:
+  - out/**
+  - resources/**
+  - package.json
+  - '!**/*.map'
+  - '!**/{.DS_Store,*.md,LICENSE*,CHANGELOG*,README*}'
+# Migrations SQL lues au démarrage (hors archive asar).
+extraResources:
+  - from: drizzle
+    to: drizzle
+asarUnpack:
+  - resources/**
+  - '**/*.node'
+npmRebuild: true
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: build/icon.ico
+  executableName: DigiPlan
+  legalTrademarks: DigiPlan — DigiStudio.dev
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  shortcutName: DigiPlan
+  createStartMenuShortcut: true
+  # Raccourci Bureau proposé (case à cocher) sur la dernière page : voir build/installer.nsh
+  createDesktopShortcut: false
+  uninstallDisplayName: DigiPlan
+  artifactName: DigiPlan-Setup-${version}.exe
+  # Les données de l'établissement ne sont jamais supprimées à la désinstallation.
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  language: '1036'
+  installerLanguages: [fr_FR]
+  multiLanguageInstaller: false
+  include: build/installer.nsh
+# Architecture prête pour les mises à jour automatiques (electron-updater) : renseigner un fournisseur ici.
+publish: null

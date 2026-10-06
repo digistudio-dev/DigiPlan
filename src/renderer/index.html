@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' ws://localhost:*; frame-src 'self' blob: data:; object-src 'none'; base-uri 'none'"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <title>DigiPlan</title>
+    <style>
+      /* Écran de démarrage instantané, avant le chargement de l'interface. */
+      html, body { margin: 0; height: 100%; }
+      #splash { position: fixed; inset: 0; display: grid; place-items: center; background: #f7f7f8; transition: opacity 200ms ease; z-index: 9999; }
+      @media (prefers-color-scheme: dark) { #splash { background: #0d0e12; } }
+      #splash.dark { background: #0d0e12; }
+      #splash.light { background: #f7f7f8; }
+      #splash img { width: 64px; height: 64px; border-radius: 15px; box-shadow: 0 8px 30px rgba(14, 107, 230, 0.25); animation: dp-pulse 1.6s ease-in-out infinite; }
+      @keyframes dp-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.94); } }
+    </style>
+  </head>
+  <body>
+    <div id="splash"><img src="./favicon.png" alt="DigiPlan" /></div>
+    <script src="./theme-boot.js"></script>
+    <div id="root"></div>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
